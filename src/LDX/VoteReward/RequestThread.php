@@ -7,6 +7,7 @@ use pocketmine\scheduler\AsyncTask;
 
 class RequestThread extends AsyncTask {
 
+    private $id;
     private $queries;
     private $rewards;
 
