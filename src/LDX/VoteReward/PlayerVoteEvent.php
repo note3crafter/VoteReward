@@ -1,4 +1,5 @@
 <?php
+
 namespace LDX\VoteReward;
 
 use LDX\VoteReward\Main as VoteReward;
