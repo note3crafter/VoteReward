@@ -1,7 +1,7 @@
 name: VoteReward
 main: LDX\VoteReward\Main
 version: 3.0.2-dev1
-api: [3.0.0-ALPHA5, 3.0.0-ALPHA6]
+api: [3.0.0-ALPHA7]
 author: LDX
 website: "https://github.com/LDX-MCPE/VoteReward"
 load: POSTWORLD
