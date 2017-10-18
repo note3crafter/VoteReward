@@ -25,7 +25,7 @@ class Utils {
     }
 
     public static function getURL($url) {
-        /*$query = curl_init($url);
+        $query = curl_init($url);
         curl_setopt($query, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($query, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($query, CURLOPT_FORBID_REUSE, 1);
@@ -36,8 +36,8 @@ class Utils {
         curl_setopt($query, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($query, CURLOPT_TIMEOUT, 5);
         $return = curl_exec($query);
-        curl_close($query);*/
-        $return = file_get_contents($url);
+        curl_close($query);
+        //$return = file_get_contents($url);
         return $return;
     }
 

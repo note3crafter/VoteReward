@@ -10,6 +10,7 @@ class RequestThread extends AsyncTask {
     private $id;
     private $queries;
     private $rewards;
+    private $error;
 
     public function __construct($id, $queries) {
         $this->id = $id;

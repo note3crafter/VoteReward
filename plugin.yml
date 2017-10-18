@@ -1,6 +1,6 @@
 name: VoteReward
 main: LDX\VoteReward\Main
-version: 3.0.2-2
+version: 3.0.2-3
 api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9]
 author: LDX
 website: "https://github.com/LDX-MCPE/VoteReward"
