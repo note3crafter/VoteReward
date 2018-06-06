@@ -8,6 +8,7 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\item\Item;
+use pocketmine\Server;
 
 class Main extends PluginBase {
 
@@ -97,7 +98,7 @@ class Main extends PluginBase {
                     }
                 }
                 $query = new RequestThread(strtolower($sender->getName()), $requests);
-                $this->getServer()->getScheduler()->scheduleAsyncTask($query);
+                Server::getInstance()->getAsyncPool()->submitTask($query);
                 break;
             default:
                 $sender->sendMessage("Invalid command.");
