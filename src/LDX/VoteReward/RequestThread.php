@@ -2,8 +2,8 @@
 
 namespace LDX\VoteReward;
 
-use pocketmine\Server;
 use pocketmine\scheduler\AsyncTask;
+use pocketmine\Server;
 
 class RequestThread extends AsyncTask {
 
@@ -11,12 +11,10 @@ class RequestThread extends AsyncTask {
     private $queries;
     private $rewards;
     private string $error;
-    private Main $plugin;
 
-    public function __construct(Main $plugin, $id, $queries) {
+    public function __construct($id, $queries) {
         $this->id = $id;
         $this->queries = $queries;
-        $this->plugin = $plugin;
     }
 
     public function onRun() :void {
@@ -44,12 +42,12 @@ class RequestThread extends AsyncTask {
             }
         }
     }
-
-    public function onCompletion() :void {
+    public function onCompletion() :void{
+        $server = Server::getInstance();
         if(isset($this->error)) {
-            $this->plugin->getLogger()->error($this->error);
+            Server::getInstance()->getPluginManager()->getPlugin("VoteReward")->getLogger()->error($this->error);
         }
-        $this->plugin->rewardPlayer($this->plugin->getServer()->getPlayerExact($this->id), $this->rewards);
-        array_splice($this->plugin->queue, array_search($this->id, $this->plugin->queue, true), 1);
+        Server::getInstance()->getPluginManager()->getPlugin("VoteReward")->rewardPlayer($server->getPlayerExact($this->id), $this->rewards);
+        array_splice($server->getPluginManager()->getPlugin("VoteReward")->queue, array_search($this->id, $server->getPluginManager()->getPlugin("VoteReward")->queue, true), 1);
     }
 }
