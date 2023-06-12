@@ -7,10 +7,10 @@ use pocketmine\scheduler\AsyncTask;
 
 class RequestThread extends AsyncTask {
 
-    private $id;
-    private $queries;
-    private $rewards;
-    private $error;
+    private bool $id;
+    private bool $queries;
+    private bool $rewards;
+    private bool $error;
 
     public function __construct($id, $queries) {
         $this->id = $id;
@@ -19,11 +19,11 @@ class RequestThread extends AsyncTask {
 
     public function onRun() :void {
         foreach(igbinary_unserialize($this->queries) as $query) {
-            if(($return = Utils::getURL(str_replace("{USERNAME}", urlencode($this->id), $query->getCheckURL()))) != false && is_array(($return = json_decode($return, true))) && isset($return["voted"]) && is_bool($return["voted"]) && isset($return["claimed"]) && is_bool($return["claimed"])) {
-                $query->setVoted($return["voted"] ? 1 : -1);
+            if(($return = Utils::getURL(str_replace("{USERNAME}", urlencode($this->id), $query->getCheckURL()))) && is_array(($return = json_decode($return, true))) && isset($return["voted"]) && is_bool($return["voted"]) && isset($return["claimed"]) && is_bool($return["claimed"])) {
+                    $query->setVoted($return["voted"] ? 1 : -1);
                 $query->setClaimed($return["claimed"] ? 1 : -1);
                 if($query->hasVoted() && !$query->hasClaimed()) {
-                    if(($return = Utils::getURL(str_replace("{USERNAME}", urlencode($this->id), $query->getClaimURL()))) != false && is_array(($return = json_decode($return, true))) && isset($return["voted"]) && is_bool($return["voted"]) && isset($return["claimed"]) && is_bool($return["claimed"])) {
+                    if(($return = Utils::getURL(str_replace("{USERNAME}", urlencode($this->id), $query->getClaimURL()))) && is_array(($return = json_decode($return, true))) && isset($return["voted"]) && is_bool($return["voted"]) && isset($return["claimed"]) && is_bool($return["claimed"])) {
                         $query->setVoted($return["voted"] ? 1 : -1);
                         $query->setClaimed($return["claimed"] ? 1 : -1);
                         if($query->hasVoted() && $query->hasClaimed()) {
@@ -51,5 +51,4 @@ class RequestThread extends AsyncTask {
         $server->getPluginManager()->getPlugin("VoteReward")->rewardPlayer($server->getPlayerExact($this->id), $this->rewards);
         array_splice($server->getPluginManager()->getPlugin("VoteReward")->queue, array_search($this->id, $server->getPluginManager()->getPlugin("VoteReward")->queue, true), 1);
     }
-
 }
