@@ -28,7 +28,7 @@ class RequestThread extends AsyncTask {
                     if(($return = Utils::getURL(str_replace("{USERNAME}", urlencode($this->id), $query->getClaimURL()))) && is_array(($return = json_decode($return, true))) && isset($return["voted"]) && is_bool($return["voted"]) && isset($return["claimed"]) && is_bool($return["claimed"])) {
                         $query->setVoted($return["voted"] ? 1 : -1);
                         $query->setClaimed($return["claimed"] ? 1 : -1);
-                        if($query->hasVoted() or $query->hasClaimed()) {
+                        if($query->hasVoted() || $query->hasClaimed()) {
                             $this->rewards++;
                         }
                     } else {
