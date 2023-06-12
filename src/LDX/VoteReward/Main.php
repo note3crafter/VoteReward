@@ -100,7 +100,7 @@ class Main extends PluginBase {
                         $requests[] = new ServerListQuery($list["check"], $list["claim"]);
                     }
                 }
-                $query = new RequestThread(strtolower($sender->getName()), igbinary_serialize($requests));
+                $query = new RequestThread($this, strtolower($sender->getName()), igbinary_serialize($requests));
                 Server::getInstance()->getAsyncPool()->submitTask($query);
                 break;
             default:
