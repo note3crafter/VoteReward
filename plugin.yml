@@ -1,7 +1,7 @@
 name: VoteReward
 main: LDX\VoteReward\Main
-version: 3.0.3
-api: [3.0.0]
+version: 4.0.0
+api: [5.1.0]
 author: LDX
 website: "https://github.com/LDX-MCPE/VoteReward"
 load: POSTWORLD
@@ -14,14 +14,12 @@ permissions:
   votereward:
     default: false
     description: "Allows access to all VoteReward features."
-    children:
-      votereward.command:
-        default: false
-        description: "Allows access to all VoteReward commands."
-        children:
-          votereward.command.vote:
-            default: true
-            description: "Allows access to using the vote command."
-          votereward.command.reload:
-            default: op
-            description: "Allows access to the vote reload subcommand."
+  votereward.command:
+    default: false
+    description: "Allows access to all VoteReward commands."
+  votereward.command.vote:
+    default: true
+    description: "Allows access to using the vote command."
+  votereward.command.reload:
+    default: op
+    description: "Allows access to the vote reload subcommand."

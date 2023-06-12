@@ -19,7 +19,7 @@ Commands
 
 /vote reload - Reloads your configuration file and rescans your Lists folder.
 
-Version 3.0
+Version 4.0
 -----------
 
-It's finally here! After a long wait, and many, many hours of hard work, VoteReward 3.0 is ready to roll! Head to your favorite server list now and see if they've added a VRC file download. When you find a VRC file, simply drop it in your VoteReward/Lists/ folder, and execute the command /vote reload to watch your players start getting rewarded for voting for your server! You can visit the official VoteReward website here (http://votereward.mcpe.me/), you can find a list of certified...
+It's finally here! After a long wait, and many, many hours of hard work, VoteReward 4.0 is ready to roll! Head to your favorite server list now and see if they've added a VRC file download. When you find a VRC file, simply drop it in your VoteReward/Lists/ folder, and execute the command /vote reload to watch your players start getting rewarded for voting for your server! You can visit the official VoteReward website here (http://votereward.mcpe.me/), you can find a list of certified...

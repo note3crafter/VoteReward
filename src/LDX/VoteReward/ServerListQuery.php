@@ -4,7 +4,7 @@ namespace LDX\VoteReward;
 
 class ServerListQuery {
 
-    private $status = [];
+    private array $status = [];
 
     public function __construct($check, $claim) {
         $this->status = ["check" => ["url" => $check, "code" => 0], "claim" => ["url" => $claim, "code" => 0]];

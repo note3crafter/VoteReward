@@ -4,21 +4,24 @@ namespace LDX\VoteReward;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\ConsoleCommandSender;
-use pocketmine\Player;
-use pocketmine\plugin\PluginBase;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\item\Item;
+use pocketmine\item\ItemIdentifier;
+use pocketmine\item\StringToItemParser;
+use pocketmine\player\Player;
+use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
 class Main extends PluginBase {
 
-    private $message = "";
-    private $items = [];
-    private $commands = [];
-    private $debug = false;
-    public $queue = [];
+    private string $message = "";
+    private array $items = [];
+    private array $commands = [];
+    protected bool $debug;
+    public array $queue = [];
+    private array $lists;
 
-    public function onLoad() {
+    public function onLoad() :void {
         if(file_exists($this->getDataFolder() . "config.yml")) {
             $c = $this->getConfig()->getAll();
             if(isset($c["API-Key"])) {
@@ -37,7 +40,7 @@ class Main extends PluginBase {
         }
     }
 
-    public function onEnable() {
+    public function onEnable() :void {
         $this->reload();
     }
 
@@ -60,7 +63,7 @@ class Main extends PluginBase {
         $this->items = [];
         foreach($config["Items"] as $i) {
             $r = explode(":", $i);
-            $this->items[] = new Item($r[0], $r[1], $r[2]);
+            $this->items[] = StringToItemParser::getInstance()->parse($r[0])->setCount($r[1]);
         }
         $this->commands = $config["Commands"];
         $this->debug = isset($config["Debug"]) && $config["Debug"] === true ? true : false;
@@ -97,7 +100,7 @@ class Main extends PluginBase {
                         $requests[] = new ServerListQuery($list["check"], $list["claim"]);
                     }
                 }
-                $query = new RequestThread(strtolower($sender->getName()), $requests);
+                $query = new RequestThread(strtolower($sender->getName()), igbinary_serialize($requests));
                 Server::getInstance()->getAsyncPool()->submitTask($query);
                 break;
             default:
@@ -124,7 +127,7 @@ class Main extends PluginBase {
             $player->getInventory()->addItem($item);
         }
         foreach($this->commands as $command) {
-            $this->getServer()->dispatchCommand(new ConsoleCommandSender, str_replace([
+            $this->getServer()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), str_replace([
                 "{USERNAME}",
                 "{NICKNAME}",
                 "{X}",
@@ -134,10 +137,10 @@ class Main extends PluginBase {
             ], [
                 $player->getName(),
                 $player->getDisplayName(),
-                $player->getX(),
-                $player->getY(),
-                $player->getY() + 1,
-                $player->getZ()
+                $player->getPosition()->getX(),
+                $player->getPosition()->getY(),
+                $player->getPosition()->getY() + 1,
+                $player->getPosition()->getZ()
             ], Utils::translateColors($command)));
         }
         if(trim($this->message) != "") {

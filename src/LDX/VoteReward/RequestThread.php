@@ -17,8 +17,8 @@ class RequestThread extends AsyncTask {
         $this->queries = $queries;
     }
 
-    public function onRun() {
-        foreach($this->queries as $query) {
+    public function onRun() :void {
+        foreach(igbinary_unserialize($this->queries) as $query) {
             if(($return = Utils::getURL(str_replace("{USERNAME}", urlencode($this->id), $query->getCheckURL()))) != false && is_array(($return = json_decode($return, true))) && isset($return["voted"]) && is_bool($return["voted"]) && isset($return["claimed"]) && is_bool($return["claimed"])) {
                 $query->setVoted($return["voted"] ? 1 : -1);
                 $query->setClaimed($return["claimed"] ? 1 : -1);
@@ -43,7 +43,8 @@ class RequestThread extends AsyncTask {
         }
     }
 
-    public function onCompletion(Server $server) {
+    public function onCompletion() :void {
+        $server = Server::getInstance();
         if(isset($this->error)) {
             $server->getPluginManager()->getPlugin("VoteReward")->getLogger()->error($this->error);
         }
